@@ -246,7 +246,7 @@ span.step:hover {
           var noteview = document.createElement("li");
           noteview.setAttribute('class', 'noteview');
           noteview.setAttribute('id', notesToShow[i].id);
-          var textToShow = notesToShow[i].maintext.substr(0, 55)+"...";
+          var textToShow = notesToShow[i].maintext.substr(0, 30)+"...";
           noteview.innerHTML = "<b>"+notesToShow[i].title+"</b><i class=\"fa fa-times closeicon\" aria-hidden=\"true\" onClick=\"deleteNote(this)\"></i><br/><br/>"+"<div id=\"note_text\">"+textToShow+"</div>"
           +"<br/><div id=\"grading_row\"><span class=\"step\" data-tooltip=\"Cant Remember\" onclick=\"calcIntervalEF(this)\">0</span><span class=\"step\" data-tooltip=\"Heard Term Before\" onclick=\"calcIntervalEF(this)\">1</span><span class=\"step\" data-tooltip=\"Should have known this\" onclick=\"calcIntervalEF(this)\">2</span><span class=\"step\" data-tooltip=\"Knew the Context\" onclick=\"calcIntervalEF(this)\">3</span><span class=\"step\" data-tooltip=\"I think I know this\" onclick=\"calcIntervalEF(this)\">4</span><span class=\"step\" data-tooltip=\"I know exactly\" onclick=\"calcIntervalEF(this)\">5</span></div>";
           noteContainer.appendChild(noteview);

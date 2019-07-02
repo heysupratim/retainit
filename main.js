@@ -1,6 +1,6 @@
 const electron = require('electron')
 // Module to control application life.
-const {app, ipcMain, globalShortcut} = require('electron')
+const { app, ipcMain, globalShortcut } = require('electron')
 // Module to create native browser window.
 const BrowserWindow = electron.BrowserWindow
 
@@ -9,11 +9,11 @@ const url = require('url')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow,noteWindow
+let mainWindow, noteWindow
 
-function createWindow () {
+function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 400, height: 600})
+  mainWindow = new BrowserWindow({ width: 400, height: 600 })
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
@@ -70,30 +70,68 @@ ipcMain.on('createnote', (event, arg) => {
 })
 
 ipcMain.on('redraw_notes', (event, arg) => {
-  mainWindow.webContents.send('redraw_notes','Tell Renderer to Redraw Notes');
+  mainWindow.webContents.send('redraw_notes', 'Tell Renderer to Redraw Notes');
 })
 
 
 
-function createNoteWindow () {
-      // Create the browser window.
-      if(!noteWindow){
-        noteWindow = new BrowserWindow({width: 300, height: 400})
+function createNoteWindow() {
+  // Create the browser window.
+  if (!noteWindow) {
+    noteWindow = new BrowserWindow({ width: 300, height: 400 })
 
-        noteWindow.loadURL(url.format({
-          pathname: path.join(__dirname, 'createnote.html'),
-          protocol: 'file:',
-          slashes: true
-        }))
+    noteWindow.loadURL(url.format({
+      pathname: path.join(__dirname, 'createnote.html'),
+      protocol: 'file:',
+      slashes: true
+    }))
 
-        noteWindow.on('closed', function () {
-          noteWindow = null
-        })
-      }
-      else{
-        noteWindow.focus()
-      }
-      
+    noteWindow.on('closed', function () {
+      noteWindow = null
+    })
+  }
+  else {
+    noteWindow.focus()
+  }
+
+}
+
+
+ipcMain.on('editnote', (event, arg) => {
+  console.log(arg);
+  createEditNoteWindow(arg);
+  noteWindow.webContents.once('dom-ready', () => {
+    noteWindow.webContents.send('editnote', arg);
+  });
+})
+
+function createEditNoteWindow(arg) {
+  // Create the browser window.
+  if (!noteWindow) {
+    noteWindow = new BrowserWindow({ width: 300, height: 400 })
+
+    noteWindow.loadURL(url.format({
+      pathname: path.join(__dirname, 'createnote.html'),
+      protocol: 'file:',
+      slashes: true
+    }))
+
+    noteWindow.on('closed', function () {
+      noteWindow = null
+    })
+
+    noteWindow.loadURL(url.format({
+      pathname: path.join(__dirname, 'createnote.html'),
+      protocol: 'file:',
+      slashes: true
+    }))
+
+  }
+  else {
+    noteWindow.focus()
+    noteWindow.webContents.send('editnote', arg);
+  }
+
 }
 
 // In this file you can include the rest of your app's specific main process

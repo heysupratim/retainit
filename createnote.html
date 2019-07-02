@@ -1,88 +1,24 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <title>Retain It</title>
 </head>
-<style type="text/css">
-html{
-  height: 100%;
-}
-body{
-  background: #f5f6fa;
-  height: 90%;
-  font: 1rem "PT Sans", sans-serif;
-}
-#inputwrapper{
-  width: 100%;
-  height: 80%;
-  border: 1px #000
-}
-.beautiful_text{
-  background: #fff; 
-  width: 100%;
-  float:left;
-  margin-bottom: 20px; 
-  font: inherit;
-  transition: all 200ms ease-in;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0 , .1);
-  border: 0;
-  outline: 0;
-  padding: 20px;
-}
 
-.beautiful_text:hover {
-  box-shadow: 0 4px 10px 0 rgba(0, 0, 0 , .3);
-}
+<script>
+  const Store = require('electron-store');
+  const store = new Store();
+  const { ipcRenderer } = require('electron');
+  var today = new Date();
+  var editnote=null;
+  today.setHours(0, 0, 0, 0);
 
-input,textarea {
-    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-    -moz-box-sizing: border-box;    /* Firefox, other Gecko */
-    box-sizing: border-box;         /* Opera/IE 8+ */
-  }
+  function saveNote(arg) {
 
-.fullwidthbtn{
-  display: inline-block;
-  width: 100%;
-  background: #7f8ff4;
-  font: inherit;
-  outline: 0;
-  transition: all 200ms ease-in;
-  cursor: pointer;
-  box-shadow: 0 0 10px 2px rgba(0, 0, 0, .1);
-  border: 0;
-  border-radius: 2px;
-  padding: 12px 36px;
-  color: #fff;
-
-}
-
-.fullwidthbtn:hover {
-      background: #3d4891;
-}
-
-#title{
-  font-weight: 700;
-  text-decoration: bold;
-}
-
-</style>
-<body>
-  <div id="inputwrapper">
-    <input id="title" type="text" class="beautiful_text" placeholder="Note Title" style="height: 60px" />
-    <textarea id="maintext" type="text" class="beautiful_text" placeholder="Note Text" style="height: 75%"></textarea>  
-    <button type="button" class="fullwidthbtn" style="height: 50px" onclick="saveNote()">Remember Note</button>
-  </div>
-  
-  <script>
-    const Store = require('electron-store');
-    const store = new Store();
-    const {ipcRenderer} = require('electron');
-    var today = new Date();
-    today.setHours(0,0,0,0);
-
-    function saveNote() {
-       var note ={
+    var note;
+    if (arg == null) {
+      note = {
         "id": new Date(),
         "title": document.getElementById("title").value,
         "maintext": document.getElementById("maintext").value,
@@ -91,23 +27,125 @@ input,textarea {
         "interval": 0,
         "reps": 0,
         "EF": 2.5,
-       }
-       
-       var notes = store.get('notes');
-       if(notes){ 
-        notes.push(note);
-       }
-       else{
-        notes = [];
-        notes.push(note);
-       }
-       store.set('notes',notes);
-       ipcRenderer.send('redraw_notes', 'This command will redraw notes');
-       document.getElementById("title").value = "";
-       document.getElementById("maintext").value = "";
+      }
+    }
+    else {
+      note = arg;
+    }
 
-     }
+    var notes = store.get('notes');
+    
+    if (notes) {
+      if (arg == null) {
+        notes.push(note);
+      } else {
+        var notePosition = -1;
+        for (var i = 0; i < notes.length; i++) {
+          if (notes[i].id == arg.id) {
+            notePosition = i;
+            break;
+          }
+        }
+        notes[notePosition].title = document.getElementById("title").value;
+        notes[notePosition].maintext = document.getElementById("maintext").value;
+      }
+    }
+    else {
+      notes = [];
+      notes.push(note);
+    }
+    store.set('notes', notes);
+    ipcRenderer.send('redraw_notes', 'This command will redraw notes');
+    document.getElementById("title").value = "";
+    document.getElementById("maintext").value = "";
 
-  </script>
+  }
+
+  ipcRenderer.on('editnote', function (event, arg) {
+    document.getElementById("mainbtn").innerHTML = "Save Changes";
+    editnote=arg;
+    document.getElementById("title").value = arg.title;
+    document.getElementById("maintext").value = arg.maintext;
+  });
+
+</script>
+<style type="text/css">
+  html {
+    height: 100%;
+  }
+
+  body {
+    background: #f5f6fa;
+    height: 90%;
+    font: 1rem "PT Sans", sans-serif;
+  }
+
+  #inputwrapper {
+    width: 100%;
+    height: 80%;
+    border: 1px #000
+  }
+
+  .beautiful_text {
+    background: #fff;
+    width: 100%;
+    float: left;
+    margin-bottom: 20px;
+    font: inherit;
+    transition: all 200ms ease-in;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .1);
+    border: 0;
+    outline: 0;
+    padding: 20px;
+  }
+
+  .beautiful_text:hover {
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .3);
+  }
+
+  input,
+  textarea {
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
+  }
+
+  .fullwidthbtn {
+    display: inline-block;
+    width: 100%;
+    background: #7f8ff4;
+    font: inherit;
+    outline: 0;
+    transition: all 200ms ease-in;
+    cursor: pointer;
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, .1);
+    border: 0;
+    border-radius: 2px;
+    padding: 12px 36px;
+    color: #fff;
+
+  }
+
+  .fullwidthbtn:hover {
+    background: #3d4891;
+  }
+
+  #title {
+    font-weight: 700;
+    text-decoration: bold;
+  }
+</style>
+
+<body>
+  <div id="inputwrapper">
+    <input id="title" type="text" class="beautiful_text" placeholder="Note Title" style="height: 60px" />
+    <textarea id="maintext" type="text" class="beautiful_text" placeholder="Note Text" style="height: 75%"></textarea>
+    <button id="mainbtn" type="button" class="fullwidthbtn" style="height: 50px" onclick="saveNote(editnote)">Remember
+      Note</button>
+  </div>
 </body>
+
 </html>

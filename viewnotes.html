@@ -1,207 +1,213 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <title>Retain It</title>
   <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
 </head>
 <style type="text/css">
-html{
-  height: 100%;
-}
-body{
-  background: #f5f6fa;
-  height: 90%;
-  font: 1rem "PT Sans", sans-serif;
-}
+  html {
+    height: 100%;
+  }
 
-#notes_container{
-  padding: 0px;
-}
+  body {
+    background: #f5f6fa;
+    height: 90%;
+    font: 1rem "PT Sans", sans-serif;
+  }
 
-.noteview{
-  background: #fff; 
-  width: 100%;
-  float:left;
-  margin-bottom: 20px; 
-  font: inherit;
-  transition: all 200ms ease-in;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0 , .1);
-  border: 0;
-  outline: 0;
-  padding: 20px;
-  -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
-  -moz-box-sizing: border-box;    /* Firefox, other Gecko */
-  box-sizing: border-box;         /* Opera/IE 8+ */
-  
-}
+  #notes_container {
+    padding: 0px;
+  }
 
-.noteview:hover {
-  box-shadow: 0 4px 10px 0 rgba(0, 0, 0 , .3);
-}
+  .noteview {
+    background: #fff;
+    width: 100%;
+    float: left;
+    margin-bottom: 20px;
+    font: inherit;
+    transition: all 200ms ease-in;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .1);
+    border: 0;
+    outline: 0;
+    padding: 20px;
+    -webkit-box-sizing: border-box;
+    /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box;
+    /* Firefox, other Gecko */
+    box-sizing: border-box;
+    /* Opera/IE 8+ */
 
-.closeicon{
-  float: right;
-}
+  }
 
-#add_note_btn{
-  bottom: 20px;
-  right: 20px;
-  position: fixed;
-  width: 50px;
-  height: 50px;
-  background: #5d9afc;
-  transition: all 200ms ease-in;
-  -moz-border-radius: 50px;
-  -webkit-border-radius: 50px;
-  border-radius: 50px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0 , .5);
-}
+  .noteview:hover {
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .3);
+  }
 
-#add_note_btn:hover {
-  background: #316dce;
-  box-shadow: 0 4px 10px 0 rgba(0, 0, 0 , .3);
-}
+  .closeicon {
+    float: right;
+  }
 
-.addicon{
-  margin-top: 18px;
-  margin-left: 18px;
-  color: #fff;
-}
+  #add_note_btn {
+    bottom: 20px;
+    right: 20px;
+    position: fixed;
+    width: 50px;
+    height: 50px;
+    background: #5d9afc;
+    transition: all 200ms ease-in;
+    -moz-border-radius: 50px;
+    -webkit-border-radius: 50px;
+    border-radius: 50px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .5);
+  }
 
-#refresh_btn{
-  width: 100%;
-  color: #5d9afc;
-  transition: all 200ms ease-in;
-  text-align: right;
-  font-size: 1.3em;
-}
+  #add_note_btn:hover {
+    background: #316dce;
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .3);
+  }
 
-#refresh_btn:hover{
-  width: 100%;
-  color: #316dce;
-  text-align: right;
-  font-size: 1.3em;
-}
+  .addicon {
+    margin-top: 18px;
+    margin-left: 18px;
+    color: #fff;
+  }
 
-span.step {
-  background: #5d9afc;
-  transition: all 200ms ease-in;
-  border-radius: 0.8em;
-  -moz-border-radius: 0.8em;
-  -webkit-border-radius: 0.8em;
-  color: #ffffff;
-  display: inline-block;
-  font-weight: bold;
-  line-height: 1.6em;
-  margin-right: 8px;
-  text-align: center;
-  width: 1.6em; 
-}
-span.step:hover {
-  background: #316dce;
-}
+  #refresh_btn {
+    width: 100%;
+    color: #5d9afc;
+    transition: all 200ms ease-in;
+    text-align: right;
+    font-size: 1.3em;
+  }
 
-/*Tooltip styles*/
+  #refresh_btn:hover {
+    width: 100%;
+    color: #316dce;
+    text-align: right;
+    font-size: 1.3em;
+  }
 
-[data-tooltip] {
-  position: relative;
-  z-index: 2;
-  cursor: pointer;
-}
+  span.step {
+    background: #5d9afc;
+    transition: all 200ms ease-in;
+    border-radius: 0.8em;
+    -moz-border-radius: 0.8em;
+    -webkit-border-radius: 0.8em;
+    color: #ffffff;
+    display: inline-block;
+    font-weight: bold;
+    line-height: 1.6em;
+    margin-right: 8px;
+    text-align: center;
+    width: 1.6em;
+  }
 
-/* Hide the tooltip content by default */
-[data-tooltip]:before,
-[data-tooltip]:after {
-  visibility: hidden;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
-  opacity: 0;
-  pointer-events: none;
-}
+  span.step:hover {
+    background: #316dce;
+  }
 
-/* Position tooltip above the element */
-[data-tooltip]:before {
-  position: absolute;
-  top: 150%;
-  left: 50%;
-  margin-bottom: 5px;
-  padding: 7px;
-  width: 80px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  background-color: #000;
-  background-color: hsla(0, 0%, 20%, 0.9);
-  color: #fff;
-  content: attr(data-tooltip);
-  text-align: center;
-  font-size: 14px;
-  line-height: 1.2;
-}
+  /*Tooltip styles*/
 
-/* Triangle hack to make tooltip look like a speech bubble */
-[data-tooltip]:after {
-  position: absolute;
-  top: 135%;
-  left: 50%;
-  width: 0;
-  border-bottom: 5px solid #000;
-  border-bottom: 5px solid hsla(0, 0%, 20%, 0.9);
-  border-right: 5px solid transparent;
-  border-left: 5px solid transparent;
-  content: " ";
-  font-size: 0;
-  line-height: 0;
-}
+  [data-tooltip] {
+    position: relative;
+    z-index: 2;
+    cursor: pointer;
+  }
 
-/* Show tooltip content on hover */
-[data-tooltip]:hover:before,
-[data-tooltip]:hover:after {
-  visibility: visible;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-  filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
-  opacity: 1;
-}
+  /* Hide the tooltip content by default */
+  [data-tooltip]:before,
+  [data-tooltip]:after {
+    visibility: hidden;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=0);
+    opacity: 0;
+    pointer-events: none;
+  }
 
+  /* Position tooltip above the element */
+  [data-tooltip]:before {
+    position: absolute;
+    top: 150%;
+    left: 50%;
+    margin-bottom: 5px;
+    padding: 7px;
+    width: 80px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #000;
+    background-color: hsla(0, 0%, 20%, 0.9);
+    color: #fff;
+    content: attr(data-tooltip);
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.2;
+  }
+
+  /* Triangle hack to make tooltip look like a speech bubble */
+  [data-tooltip]:after {
+    position: absolute;
+    top: 135%;
+    left: 50%;
+    width: 0;
+    border-bottom: 5px solid #000;
+    border-bottom: 5px solid hsla(0, 0%, 20%, 0.9);
+    border-right: 5px solid transparent;
+    border-left: 5px solid transparent;
+    content: " ";
+    font-size: 0;
+    line-height: 0;
+  }
+
+  /* Show tooltip content on hover */
+  [data-tooltip]:hover:before,
+  [data-tooltip]:hover:after {
+    visibility: visible;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=100);
+    opacity: 1;
+  }
 </style>
 
 <body>
 
-  <div id="refresh_btn"><i class="fa fa-refresh" aria-hidden="true" style="margin-right: 8px" title="Refresh" onclick="redrawList()"></i></div>
-  
+  <div id="refresh_btn"><i class="fa fa-refresh" aria-hidden="true" style="margin-right: 8px" title="Refresh"
+      onclick="redrawList()"></i></div>
+
   <ul id="notes_container">
   </ul>
-  
+
   <div id="add_note_btn" onclick="createNote()">
-    <i class="fa fa-plus addicon"  aria-hidden="true"></i>  
+    <i class="fa fa-plus addicon" aria-hidden="true"></i>
   </div>
-  
+
   <script>
-    
+
     const Store = require('electron-store');
-    const {ipcRenderer} = require('electron');
+    const { ipcRenderer } = require('electron');
     const store = new Store();
     //store.delete('notes');
     var notes;
     var notesToShow = [];
     var today;
-    
+
     redrawList();
 
-    function getNotesToBeShown(){     
+    function getNotesToBeShown() {
       var noteCounter = 0;
       notes = store.get('notes');
-      if(notes){
+      if (notes) {
         today = new Date();
-        today.setHours(0,0,0,0);
+        today.setHours(0, 0, 0, 0);
         notesToShow = [];
-        for (var i=0; i<notes.length; i++) {
+        for (var i = 0; i < notes.length; i++) {
           var card = notes[i];
           var nextDate = new Date(card.nextDate); //convert to comparable date type
           if (card.interval === 0 || nextDate <= today) {
             notesToShow[noteCounter] = card;
-            noteCounter++; 
+            noteCounter++;
           }
         }
       }
@@ -209,7 +215,7 @@ span.step:hover {
 
     function cardQuizCount() {
       var count = 0;
-      for (var i=0; i<notes.length; i++) {
+      for (var i = 0; i < notes.length; i++) {
         var card = notes[i];
         var date = new Date(card.nextDate);
         if (card.interval === 0 || !card.interval || date.getTime() <= today.getTime()) {
@@ -219,40 +225,54 @@ span.step:hover {
       return count;
     }
 
-    function deleteNote(object){
+    function deleteNote(object) {
       var noteViewObject = object.parentNode;
       var noteId = noteViewObject.attributes[1].value;
       var noteTobeDeleted = -1;
-      for (var i=0; i<notes.length; i++) {
-        if(notes[i].id == noteId){
+      for (var i = 0; i < notes.length; i++) {
+        if (notes[i].id == noteId) {
           noteTobeDeleted = i;
           break;
         }
       }
 
-      if(noteTobeDeleted!=-1){
-        notes.splice(noteTobeDeleted,1);
-        store.set('notes',notes);
+      if (noteTobeDeleted != -1) {
+        notes.splice(noteTobeDeleted, 1);
+        store.set('notes', notes);
         redrawList();
       }
     }
 
-    function redrawList(){
+    function redrawList() {
       getNotesToBeShown();
-      if(notesToShow){
+      if (notesToShow) {
         var noteContainer = document.getElementById("notes_container");
         noteContainer.innerHTML = "";
-        for(i=0;i<notesToShow.length;i++){
+        for (i = 0; i < notesToShow.length; i++) {
           var noteview = document.createElement("li");
           noteview.setAttribute('class', 'noteview');
           noteview.setAttribute('id', notesToShow[i].id);
-          var textToShow = notesToShow[i].maintext.substr(0, 30)+"...";
-          noteview.innerHTML = "<b>"+notesToShow[i].title+"</b><i class=\"fa fa-times closeicon\" aria-hidden=\"true\" onClick=\"deleteNote(this)\"></i><br/><br/>"+"<div id=\"note_text\">"+textToShow+"</div>"
-          +"<br/><div id=\"grading_row\"><span class=\"step\" data-tooltip=\"Cant Remember\" onclick=\"calcIntervalEF(this)\">0</span><span class=\"step\" data-tooltip=\"Heard Term Before\" onclick=\"calcIntervalEF(this)\">1</span><span class=\"step\" data-tooltip=\"Should have known this\" onclick=\"calcIntervalEF(this)\">2</span><span class=\"step\" data-tooltip=\"Knew the Context\" onclick=\"calcIntervalEF(this)\">3</span><span class=\"step\" data-tooltip=\"I think I know this\" onclick=\"calcIntervalEF(this)\">4</span><span class=\"step\" data-tooltip=\"I know exactly\" onclick=\"calcIntervalEF(this)\">5</span></div>";
+          var textToShow = notesToShow[i].maintext.substr(0, 20) + "...";
+          noteview.innerHTML = "<b>" + "<span onclick='editNote(\""+notesToShow[i].id+"\")'>"+notesToShow[i].title + "</span></b><i class=\"fa fa-times closeicon\" aria-hidden=\"true\" onClick=\"deleteNote(this)\"></i><br/><br/>" + "<div id=\"note_text\" onclick='editNote(\""+notesToShow[i].id+"\")'>" + textToShow + "</div>"
+            + "<br/><div id=\"grading_row\"><span class=\"step\" data-tooltip=\"Cant Remember\" onclick=\"calcIntervalEF(this)\">0</span><span class=\"step\" data-tooltip=\"Heard Term Before\" onclick=\"calcIntervalEF(this)\">1</span><span class=\"step\" data-tooltip=\"Should have known this\" onclick=\"calcIntervalEF(this)\">2</span><span class=\"step\" data-tooltip=\"Knew the Context\" onclick=\"calcIntervalEF(this)\">3</span><span class=\"step\" data-tooltip=\"I think I know this\" onclick=\"calcIntervalEF(this)\">4</span><span class=\"step\" data-tooltip=\"I know exactly\" onclick=\"calcIntervalEF(this)\">5</span></div>";
           noteContainer.appendChild(noteview);
         }
       }
     }
+
+    'deleteseries(\""+seriesdel+"\");'
+
+    function editNote(noteId){
+      for (var i = 0; i < notes.length; i++) {
+        if (notes[i].id == noteId) {
+          notePosition = i;
+          break;
+        }
+      }
+      card = notes[notePosition];
+      ipcRenderer.send('editnote',card);
+    }
+
 
     function calcIntervalEF(object) {
 
@@ -262,26 +282,26 @@ span.step:hover {
       var noteId = noteViewObject.attributes[1].value;
       var grade = object.innerHTML;
       var notePosition = -1;
-      for (var i=0; i<notes.length; i++) {
-        if(notes[i].id == noteId){
+      for (var i = 0; i < notes.length; i++) {
+        if (notes[i].id == noteId) {
           notePosition = i;
           break;
         }
       }
       card = notes[notePosition];
-      
+
       var oldEF = card.EF,
-      newEF = 0,
-      nextDate = new Date(today);
+        newEF = 0,
+        nextDate = new Date(today);
 
       if (grade < 3) {
         card.reps = 0;
         card.interval = 0;
       }
       else {
-        newEF = oldEF + (0.1 - (5-grade)*(0.08+(5-grade)*0.02));
+        newEF = oldEF + (0.1 - (5 - grade) * (0.08 + (5 - grade) * 0.02));
         if (newEF < 1.3) { // 1.3 is the minimum EF
-            card.EF = 1.3;
+          card.EF = 1.3;
         } else {
           card.EF = newEF;
         }
@@ -308,20 +328,21 @@ span.step:hover {
       nextDate.setDate(today.getDate() + card.interval);
       card.nextDate = nextDate;
       //console.log(notes);
-      store.set("notes",notes);
-      gradingRow.innerHTML=""
+      store.set("notes", notes);
+      gradingRow.innerHTML = ""
       noteText.innerHTML = card.maintext;
     }
 
-    function createNote(){
+    function createNote() {
       ipcRenderer.send('createnote', 'This will create a new note window');
     }
 
-    ipcRenderer.on('redraw_notes', function(arg) {
+    ipcRenderer.on('redraw_notes', function (arg) {
       console.log("Got Call for Redrawing");
       redrawList();
     });
-    
+
   </script>
 </body>
+
 </html>

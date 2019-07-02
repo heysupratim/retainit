@@ -5,5 +5,4 @@ A Simple Desktop app to make notes that use spaced repetition to resurface notes
 1. Add notes (Keyboard Shortcut - Cmd/Cntrl+Shift+N)
 2. Grade Note difficulty 
 3. Delete Note
-
-The credits for this project are due. 
+4. Edit notes
